@@ -11,7 +11,7 @@ module.exports = function (grunt) {
       },
       production: {
         src: 'src/**/*.less',
-        dest: 'dist/main-min.css',
+        dest: 'dist/main.css',
         options: {
           yuicompress: true
         }
