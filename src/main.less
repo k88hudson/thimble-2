@@ -244,9 +244,6 @@ header {
       border-bottom: 1px solid #DDD;
       border-left: 1px solid #DDD;
     }
-    &.saved {
-      color: @green;
-    }
   }
   .buttons {
     position: absolute;
@@ -321,6 +318,34 @@ header {
   cursor: pointer;
 }
 
+#save {
+  &:before {
+    color: #FFF;
+    .icon(@save);
+  }
+
+  &[data-save="dirty"] {
+    &:before {
+      .icon(@save);
+    }
+  }
+
+  &[data-save="pending"] {
+    .spinner;
+  }
+
+  &[data-save="complete"] {
+    &:before {
+      .icon(@ok);
+      color: @green;
+    }
+    background: #FFF;
+    border: 0;
+    border-bottom: 1px solid #DDD;
+    border-left: 1px solid #DDD;
+  }
+}
+
 .button {
   .box-sizing(content-box);
   display: inline-block;
@@ -382,6 +407,15 @@ fieldset {
 label {
   display: block;
   padding: 0.5em 0;
+  .transition;
+  &[data-save="complete"] {
+    color: @green;
+    &:after {
+      margin-left: 5px;
+      .icon(@ok);
+
+    }
+  }
 }
 input {
   margin: 0;
@@ -413,13 +447,13 @@ fieldset .save {
   display: none;
   &[data-save="dirty"] {
     display: inline-block;
-    &:before {
-      content: "Save";
-    }
   }
 
   &[data-save="pending"] {
     display: inline-block;
+    .text {
+      display: none;
+    }
     .spinner;
   }
 

@@ -37,7 +37,6 @@ html(lang="en")
         .toolbar
           .buttons
             #save.button(data-logged-in-only)
-              span.icon.icon-save
               .tooltip Save
             #settings.panel-button.button.light
               span.icon-reorder
@@ -45,9 +44,6 @@ html(lang="en")
             #project.panel-button.button.light
               span.icon-edit
               .tooltip Project
-            #publish.panel-button.button.light(data-logged-in-only)
-              span.icon-truck
-              .tooltip Publish
             #tutorial.panel-button.button.light
               span.icon-question
               .tooltip Tutorial
@@ -59,17 +55,23 @@ html(lang="en")
               fieldset
                 label Title
                 input
-                .button.save
+                .button.save: span.text Update
               fieldset
                 label Url
                 input
-                .button.save
+                .button.save: span.text Update
               fieldset
                 label Thumbnail
                 .thumbnail-choices
                   img
                   img
                   img
+              fieldset
+                label Tags
+                input
+                .button.save: span.text Update
+              fieldset
+                .button.save(data-save="dirty"): span.text Update all
             #settings-panel.panel
               h2 Settings
             #publish-panel.panel

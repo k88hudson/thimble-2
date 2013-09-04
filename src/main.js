@@ -29,16 +29,30 @@ require([
     $body.attr('data-logged-in', true);
   });
 
-  // SAVE
-  $('#save').on('click', function () {
-    $('#save').addClass('light');
-    $('#save .icon').removeClass('icon-save');
-    $('#save .icon').addClass('icon-spin icon-spinner');
+  var $saveButton = $('#save');
+  function doSave() {
+    $saveButton.attr('data-save', 'pending');
     setTimeout(function () {
-      $('#save .icon').removeClass('icon-spin icon-spinner')
-        .addClass('icon-ok')
-        .closest('.button').addClass('saved');
+      $saveButton.attr('data-save', 'complete');
     }, 1000);
+  }
+
+  function highlightSave() {
+    $saveButton.attr('data-save', 'dirty');
+  }
+
+  // SAVE
+  $saveButton.on('click', function() {
+    if ( $saveButton.attr('data-save') === 'dirty') {
+      doSave();
+    } else {
+      $('.panel-button.active').removeClass('active');
+      $('#project').addClass('active');
+      $content.addClass('expanded');
+      $('.panel').removeClass('active');
+      $('#project-panel').addClass('active');
+    }
+
   });
 
   // TOOLBAR
@@ -71,12 +85,11 @@ require([
   // INPUTS
   function onSaveClick() {
     var $this = $(this);
-    $this.addClass('light');
     $this.attr('data-save', 'pending');
     setTimeout(function () {
       $this.attr('data-save', 'complete');
       $this.off('click', onSaveClick);
-      $this.removeClass('light');
+      $this.siblings('label').attr('data-save', 'complete');
       $this.siblings('input').on('keyup', showSaveBtn);
     }, 2000);
   }
@@ -86,6 +99,7 @@ require([
     var $saveBtn = $this.siblings('.save');
 
     $saveBtn.attr('data-save', 'dirty');
+    $this.siblings('label').attr('data-save', 'dirty');
     $saveBtn.on('click', onSaveClick);
     $this.off('keyup', showSaveBtn);
   }
@@ -108,6 +122,7 @@ require([
   }
 
   editor.on('change', updatePreview);
+  editor.on('change', highlightSave);
   updatePreview();
   setTimeout(function() {
     $body.removeAttr('data-loading');
