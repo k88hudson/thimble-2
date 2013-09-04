@@ -89,7 +89,7 @@ module.exports = function (grunt) {
           paths: {
             'templates': '../dist/templates'
           },
-          out: './dist/main.min.js'
+          out: './dist/main.js'
         }
       }
     }
