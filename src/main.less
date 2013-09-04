@@ -1,0 +1,445 @@
+/*********************************************************
+* Colours
+*/
+
+@yellow: #ffcd36;
+@lightyellow: #fff2cc;
+@darkyellow: #eab514;
+@orange: #ee8950;
+@darkgreen: #328f70;
+@blue: #4285F4;
+@red: #D93B3B;
+@green: #3fb58e;
+@grey: #4d4e53;
+@lightgrey: #e3eaee;
+@midgrey: #ddd;
+@white: #fff;
+@black: #000;
+
+/*********************************************************
+* Breakpoints
+*/
+
+@width-small: 320px;
+@width-medium: 480px;
+@width-large: 960px;
+@width-xlarge: 1540px;
+
+/*********************************************************
+* Bower Imports
+*/
+
+// Lesshat
+@import "bower_components/lesshat/lesshat";
+
+// Font Awesome
+// Use http://fortawesome.github.io/Font-Awesome/cheatsheet/ as a guide
+@import "bower_components/font-awesome/less/font-awesome";
+@FontAwesomePath: "/bower_components/font-awesome/font";
+
+// Persona
+@import "bower_components/persona-btn/persona-btn.less";
+@personaBtnPath: "/bower_components/persona-btn";
+
+
+/*********************************************************
+* Mixins
+*/
+
+.transition() {
+  transition: all 0.2s linear;
+}
+
+.spinner() {
+  &::before {
+    .icon(@spinner);
+    display: block;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    -webkit-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+  }
+}
+
+/*********************************************************
+* Main
+*/
+
+@headerHeight: 70px;
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Inconsolata, sans-serif;
+}
+
+.loader {
+  transition: all 0.2s linear;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 80px;
+  margin-left: -40px;
+  margin-top: -40px;
+
+  visibility: hidden;
+  opacity: 0;
+  .spinner;
+}
+
+body {
+  background: #FFF;
+  .transition;
+}
+
+body[data-loading] {
+  background-color: #222;
+  .wrapper {
+    .transition;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .loader {
+    visibility: visible;
+    opacity: 1;
+    color: #FFF;
+  }
+}
+
+/*********************************************************
+* Header
+*/
+
+header {
+  background: #FFF;
+  color: #222;
+  height: @headerHeight;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid #CCC;
+  padding: 0 10px;
+  font-size: 18px;
+  line-height: @headerHeight;
+}
+
+.block {
+  float: left;
+  margin-right: 10px;
+  height: 100%;
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+
+.persona-button {
+  margin-left: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+#title {
+  margin-right: 20px;
+}
+
+.pull-right {
+  float: right;
+}
+
+/*********************************************************
+* Panes
+*/
+
+#content {
+  position: absolute;
+  top: @headerHeight;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.pane-container {
+  height: 100%;
+  margin-right: 50px;
+}
+
+.pane {
+  position: relative;
+  float: left;
+  width: 50%;
+  height: 100%;
+}
+
+// Decided not to use
+#editor-header {
+  height: 40px;
+  border-bottom: 1px solid #DDD;
+  padding: 0 10px;
+  .block {
+    line-height: 40px;
+  }
+  .menu {
+    color: #999;
+    font-size: 13px;
+  }
+}
+
+#editor {
+  height: 100%;
+  width: 100%;
+}
+
+#preview {
+  border: none;
+  border-left: 1px solid #CCC;
+}
+
+/*********************************************************
+* Toolbar
+*/
+ @toolbarSize: 60px;
+
+.toolbar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width:  @toolbarSize;
+  height: 100%;
+  background: #222;
+  transition: all 0.2s ease-out;
+  .buttons .button {
+    position: relative;
+    .box-sizing(border-box);
+    display: block;
+    width: @toolbarSize;
+    height: @toolbarSize;
+    line-height: @toolbarSize;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border-bottom: 1px solid darken(@blue, 10%);
+
+    &.light {
+      color: #777;
+      border: 0;
+      border-bottom: 1px solid #DDD;
+      border-left: 1px solid #DDD;
+    }
+    &.active,
+    &.black {
+      color: #777;
+      background: #222;
+      border: none;
+    }
+    &#info.active {
+      background: #FFF;
+      color: @blue;
+      border-bottom: 1px solid #DDD;
+      border-left: 1px solid #DDD;
+    }
+    &.saved {
+      color: @green;
+    }
+  }
+  .buttons {
+    position: absolute;
+    height: 100%;
+    background: #FFF;
+  }
+  .panel-container {
+    opacity: 0;
+    position: absolute;
+    font-size: 13px;
+    padding: 2em;
+    height: 100%;
+    margin-left: @toolbarSize;
+    color: #FFF;
+    transition: opacity 0.1s linear;
+    p, h2 {
+      margin-top: 0;
+    }
+    .panel {
+      display: none;
+      &.active {
+        display: block;
+      }
+    }
+  }
+}
+
+.tooltip {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  margin-top: -15px;
+  margin-right: 8px;
+  height: 30px;
+  line-height: 30px;
+  background: white;
+  border: 1px solid @blue;
+  color: @blue;
+  padding: 0 10px;
+  display: none;
+}
+
+.button:hover .tooltip,
+.info-mode .tooltip {
+  display: block;
+}
+
+.expanded {
+  .toolbar {
+    width: 33%;
+  }
+  .pane-container {
+    width: 67%;
+  }
+  .panel-container {
+    opacity: 1;
+    position: relative;
+  }
+}
+
+/*********************************************************
+* Buttons
+*/
+
+.close-button {
+  &:before {
+    .icon(@remove);
+  }
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.button {
+  .box-sizing(content-box);
+  display: inline-block;
+  vertical-align: baseline;
+  font-size: 14px;
+  height: 30px;
+  background: @blue;
+  border-radius: 2px;
+  color: #FFF;
+  line-height: 30px;
+  cursor: pointer;
+  padding: 0 15px;
+  transition: all 0.2s linear;
+  &.square {
+    width: 30px;
+    text-align: center;
+    padding: 0;
+  }
+  &.big {
+    &.square {
+      width: 45px;
+      padding: 0;
+    }
+    height: 45px;
+    line-height: 45px;
+  }
+  &.no-border{
+    border: none;
+    background: #FFF;
+    color: #CCC;
+    &:hover {
+      background: #FFF;
+      color: #555;
+    }
+  }
+  &.light {
+    background: #FFF;
+    border: 1px solid #CCC;
+    color: #777;
+    &:hover {
+      background: #FFF;
+      color: #222;
+    }
+  }
+  &:hover {
+    background: lighten(@blue, 10%);
+  }
+}
+
+/*********************************************************
+* Panel
+*/
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin-bottom: 1em;
+}
+label {
+  display: block;
+  padding: 0.5em 0;
+}
+input {
+  margin: 0;
+  margin-bottom: 0.5em;
+  font-family: Inconsolata;
+  font-size: 14px;
+  border: 1px solid #444;
+  padding: 0.6em;
+  width: 100%;
+  background: lighten(#222, 5%);
+  color: #EEE;
+  &:focus {
+    outline: none;
+    border: 1px solid @blue;
+  }
+}
+.thumbnail-choices img {
+  width: 50px;
+  height: 50px;
+  background: #FFF;
+  display: inline-block;
+  margin-right: 1em;
+}
+
+/*********************************************************
+* Save states
+*/
+fieldset .save {
+  display: none;
+  &[data-save="dirty"] {
+    display: inline-block;
+    &:before {
+      content: "Save";
+    }
+  }
+
+  &[data-save="pending"] {
+    display: inline-block;
+    .spinner;
+  }
+
+  &[data-save="complete"] {
+    display: none;
+  }
+}
+
+
+/*********************************************************
+* Login
+*/
+
+body[data-logged-in=false] [data-logged-in-only] {
+  display: none !important;
+}
+body[data-logged-in=true] [data-logged-out-only] {
+  display: none !important;
+}
+
+
+
+

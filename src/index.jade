@@ -1,0 +1,85 @@
+!!! 5
+html(lang="en")
+  head
+    title Test for t41
+    link(rel="stylesheet", href="main.css")
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Inconsolata")
+  body(data-loading)
+    .loader
+    .wrapper
+      header
+        .block
+          .button.no-border.square: span.icon-reply
+
+        .block#title Thimble / new project
+
+        //- .block: .button.big.square: span.icon-save
+        //- .block: .button.big Publish
+
+        .block.pull-right
+          .block: #persona.persona-button(data-logged-out-only)
+            span.text Sign in
+            span.tip
+          .block: .button.light.big(data-logged-in-only)
+            span.icon-user 
+            span  username123 
+            span.icon-caret-down
+
+      #content
+        .pane-container
+          .pane
+            #editor
+              = '<h1>Hi</h1>\n'
+              = '<p>Hello!</p>'
+
+          iframe.pane#preview
+
+        .toolbar
+          .buttons
+            #save.button(data-logged-in-only)
+              span.icon.icon-save
+              .tooltip Save
+            #settings.panel-button.button.light
+              span.icon-reorder
+              .tooltip Settings
+            #project.panel-button.button.light
+              span.icon-edit
+              .tooltip Project
+            #publish.panel-button.button.light(data-logged-in-only)
+              span.icon-truck
+              .tooltip Publish
+            #tutorial.panel-button.button.light
+              span.icon-question
+              .tooltip Tutorial
+            #info.button.light
+              span.icon-info-sign
+          .panel-container
+            #project-panel.panel
+              h2 Project
+              fieldset
+                label Title
+                input
+                .button.save
+              fieldset
+                label Url
+                input
+                .button.save
+              fieldset
+                label Thumbnail
+                .thumbnail-choices
+                  img
+                  img
+                  img
+            #settings-panel.panel
+              h2 Settings
+            #publish-panel.panel
+              h2 Publish
+            #tutorial-panel.panel
+              h2 Tutorial
+              ol
+                li Step 1
+                li Step 2
+                li Step 3
+            .close-button
+
+    script(src="/bower_components/requirejs/require.js", data-main="main")
