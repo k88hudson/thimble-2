@@ -2,7 +2,7 @@
 html(lang="en")
   head
     title Test for t41
-    link(rel="stylesheet", href="main.css")
+    link(rel="stylesheet", href="/main.css")
     link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Inconsolata")
   body(data-loading)
     .loader
@@ -28,9 +28,7 @@ html(lang="en")
       #content
         .pane-container
           .pane
-            #editor
-              = '<h1>Hi</h1>\n'
-              = '<p>Hello!</p>'
+            #editor #{project.content}
 
           iframe.pane#preview
 
@@ -52,13 +50,14 @@ html(lang="en")
           .panel-container
             #project-panel.panel
               h2 Project
+              input(type="hidden", name="id", value="#{project.id}")
               fieldset
                 label Title
-                input
+                input(name="title", value="#{project.title}")
                 .button.save: span.text Update
               fieldset
                 label Url
-                input
+                input(name="slug", value="#{project.slug}")
                 .button.save: span.text Update
               fieldset
                 label Thumbnail
@@ -84,4 +83,4 @@ html(lang="en")
                 li Step 3
             .close-button
 
-    script(src="/bower_components/requirejs/require.js", data-main="main")
+    script(src="/bower_components/requirejs/require.js", data-main="/main.js")

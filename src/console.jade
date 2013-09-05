@@ -1,0 +1,18 @@
+!!! 5
+html(lang="en")
+  head
+    title Test for t41
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Inconsolata")
+  body(data-loading)
+    h1 Make a document
+    form
+      fieldset
+        label title
+        input.input(name="title")
+      fieldset
+        label content
+        textarea.input(name="content")
+      fieldset
+        button#submit Button
+
+    script(src="/bower_components/requirejs/require.js", data-main="console")

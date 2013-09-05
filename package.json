@@ -16,7 +16,9 @@
     "grunt-contrib-less": "~0.7.0",
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-develop": "~0.2.1",
-    "grunt-contrib-copy": "~0.4.1"
+    "grunt-contrib-copy": "~0.4.1",
+    "sequelize": "~2.0.0-beta.0",
+    "sqlite3": "2.1.7"
   },
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install"

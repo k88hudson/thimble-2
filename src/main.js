@@ -5,19 +5,17 @@ requirejs.config({
     jade: 'jade/runtime',
     templates: '../templates',
     jquery: 'jquery/jquery',
-    ace: 'ace/lib/ace'
+    ace: 'ace/lib/ace',
+    lodash: 'lodash/lodash'
   }
 });
 
 require([
   'jquery',
   'templates',
-  'ace/ace'
-], function (
-  $,
-  templates,
-  ace
-) {
+  'ace/ace',
+  'lodash'
+], function ($, templates, ace, _) {
 
   var $content = $('#content');
   var $body = $('body');
@@ -29,9 +27,40 @@ require([
     $body.attr('data-logged-in', true);
   });
 
+  // SENDDATA
+  function saveToDB() {
+    var data = {};
+    $('[name]').each(function(i, el) {
+      var val = $(el).val();
+      if (val) {
+        data[$(el).attr('name')] = val;
+      }
+    });
+    var raw = editor.getValue();
+    data.content = _.escape(raw);
+
+    console.log('saving...', data);
+
+    $.ajax({
+      type: 'POST',
+      url: data.id ? '/update' : '/create',
+      id: data.id,
+      data: data,
+      success: function(result) {
+        var data = result.data;
+        history.pushState({}, data.title, '/project/' + data.id);
+        console.log(data);
+      },
+      error: function( jqXHR, textStatus, errorThrown ) {
+        console.log( textStatus, errorThrown );
+      }
+    });
+  }
+
   var $saveButton = $('#save');
   function doSave() {
     $saveButton.attr('data-save', 'pending');
+    saveToDB();
     setTimeout(function () {
       $saveButton.attr('data-save', 'complete');
     }, 1000);
@@ -82,6 +111,7 @@ require([
     $content.toggleClass('info-mode');
   });
 
+
   // INPUTS
   function onSaveClick() {
     var $this = $(this);
@@ -108,6 +138,7 @@ require([
   var previewFrame = document.getElementById('preview');
   var preview = previewFrame.contentDocument || previewFrame.contentWindow.document;
 
+  var content = _.unescape($('#editor').html());
   var editor = ace.edit('editor');
   editor.setTheme('ace/theme/dreamweaver');
   editor.getSession().setMode('ace/mode/html');
@@ -123,6 +154,7 @@ require([
 
   editor.on('change', updatePreview);
   editor.on('change', highlightSave);
+
   updatePreview();
   setTimeout(function() {
     $body.removeAttr('data-loading');
