@@ -1,5 +1,5 @@
 requirejs.config({
-  baseUrl: '../bower_components',
+  baseUrl: '/bower_components',
   paths: {
     main: '../src/main',
     jade: 'jade/runtime',
@@ -23,14 +23,15 @@ require([
 
   // PERSONA
   $body.attr('data-logged-in', false);
-  $('#persona').on('click', function() {
+  $('#persona').on('click', function () {
     $body.attr('data-logged-in', true);
   });
 
   // SENDDATA
+
   function saveToDB() {
     var data = {};
-    $('[name]').each(function(i, el) {
+    $('[name]').each(function (i, el) {
       var val = $(el).val();
       if (val) {
         data[$(el).attr('name')] = val;
@@ -40,40 +41,35 @@ require([
     data.content = _.escape(raw);
 
     console.log('saving...', data);
+    $saveButton.attr('data-save', 'pending');
 
     $.ajax({
       type: 'POST',
       url: data.id ? '/update' : '/create',
       id: data.id,
       data: data,
-      success: function(result) {
+      success: function (result) {
         var data = result.data;
-        history.pushState({}, data.title, '/project/' + data.id);
-        console.log(data);
+        history.pushState({}, data.title, '/project/' + data.id + '/edit');
+        console.log('sucess', data);
+        $saveButton.attr('data-save', 'complete');
       },
-      error: function( jqXHR, textStatus, errorThrown ) {
-        console.log( textStatus, errorThrown );
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log('error', textStatus, errorThrown);
       }
     });
   }
 
   var $saveButton = $('#save');
-  function doSave() {
-    $saveButton.attr('data-save', 'pending');
-    saveToDB();
-    setTimeout(function () {
-      $saveButton.attr('data-save', 'complete');
-    }, 1000);
-  }
 
   function highlightSave() {
     $saveButton.attr('data-save', 'dirty');
   }
 
   // SAVE
-  $saveButton.on('click', function() {
-    if ( $saveButton.attr('data-save') === 'dirty') {
-      doSave();
+  $saveButton.on('click', function () {
+    if ($saveButton.attr('data-save') === 'dirty') {
+      saveToDB();
     } else {
       $('.panel-button.active').removeClass('active');
       $('#project').addClass('active');
@@ -87,7 +83,7 @@ require([
   // TOOLBAR
   $('.panel-button').on('click', function () {
     var $this = $(this);
-    if ( !$this.hasClass('active') ) {
+    if (!$this.hasClass('active')) {
       $('.panel-button.active').removeClass('active');
       $this.addClass('active');
       $content.addClass('expanded');
@@ -106,16 +102,17 @@ require([
   });
 
   // INFO
-  $('#info').on('click', function() {
+  $('#info').on('click', function () {
     $('#info').toggleClass('active');
     $content.toggleClass('info-mode');
   });
 
-
   // INPUTS
+
   function onSaveClick() {
     var $this = $(this);
     $this.attr('data-save', 'pending');
+    saveToDB();
     setTimeout(function () {
       $this.attr('data-save', 'complete');
       $this.off('click', onSaveClick);
@@ -156,7 +153,7 @@ require([
   editor.on('change', highlightSave);
 
   updatePreview();
-  setTimeout(function() {
+  setTimeout(function () {
     $body.removeAttr('data-loading');
   }, 200);
 });

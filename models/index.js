@@ -15,7 +15,7 @@ module.exports = function () {
     logging: false
   });
 
-  var model = sequelize.import(__dirname + '/model.js');
+  var model = sequelize.import(__dirname + '/document.js');
 
   sequelize.sync().complete(function (err) {
     if (err) {
@@ -34,9 +34,7 @@ module.exports = function () {
     },
     create: function (data, callback) {
       if (!data) {
-        return callback({
-          err: 'No data was received'
-        });
+        return callback('No data was received');
       }
       var doc = model.build(data);
       // var err = doc.validate();
@@ -47,10 +45,17 @@ module.exports = function () {
       doc.save().complete(callback);
     },
     update: function (id, data, callback) {
-
+      model.find(id).complete(function (err, document) {
+        if (!document) {
+          return callback('No entry found for id #' + id);
+        }
+        document.updateAttributes(data).complete(callback);
+      });
     },
     delete: function (id, callback) {
-
+      model.find(id).success(function (document) {
+        document.destroy().complete(callback);
+      });
     }
   };
 

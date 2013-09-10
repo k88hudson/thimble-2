@@ -32,7 +32,7 @@ module.exports = function (db) {
 
   controller.get = function (req, res) {
     var id = req.params.id;
-    db.id(id, function(err, result) {
+    db.id(id, function (err, result) {
       if (err) {
         return res.json({
           message: 'There was a database error',
@@ -47,8 +47,9 @@ module.exports = function (db) {
 
   controller.update = function (req, res) {
     var data = req.body;
-    var id = req.params.id;
-    db.update(id, function(err, result) {
+    var id = req.body.id;
+    db.update(id, data, function (err, result) {
+      console.log(err, result);
       if (err) {
         return res.json({
           message: 'There was a database error',
@@ -61,12 +62,27 @@ module.exports = function (db) {
     });
   };
 
-  controller.loadProject = function(req, res, next) {
+  controller.destroy = function (req, res) {
+    var id = req.body.id;
+    db.destroy(id, function (err, result) {
+      if (err) {
+        return res.json({
+          message: 'There was a database error',
+          error: err
+        });
+      }
+      res.json({
+        data: result
+      });
+    });
+  };
+
+  controller.loadProject = function (req, res, next) {
     var id = req.params.id;
     if (!id) {
       return next();
     }
-    db.id(id, function(err, result) {
+    db.id(id, function (err, result) {
       if (err || !result) {
         return next(err);
       } else {

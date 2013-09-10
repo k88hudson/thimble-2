@@ -33,6 +33,8 @@ module.exports = function (grunt) {
           'app.js',
           'routes/**/*.js',
           'lib/*.js',
+          'controllers/**/*.js',
+          'models/**/*.js'
         ],
         tasks: ['develop'],
         options: { nospawn: true }
@@ -109,12 +111,12 @@ module.exports = function (grunt) {
     'jshint',
     'copy',
     'develop',
-    'watch',
+    'watch'
   ]);
 
   grunt.registerTask('heroku', [
     'jade:compileJSTemplates',
     'less:production',
-    'requirejs',
+    'requirejs'
   ]);
 };

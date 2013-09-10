@@ -1,5 +1,5 @@
 module.exports = {
-  main: function(req, res) {
+  editor: function(req, res) {
     var defaultProject = {
       id: '',
       title: 'This is my project',
@@ -9,6 +9,14 @@ module.exports = {
     var projectData = req.project || defaultProject;
     res.render('index', {
       project: projectData
+    });
+  },
+  output: function(req, res) {
+    if (!req.project ) {
+      return res.send('Oops, no project found for this ID.');
+    }
+    res.render('output', {
+      project: req.project
     });
   },
   page: function(view) {

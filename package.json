@@ -22,5 +22,10 @@
   },
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.1",
+    "expect.js": "~0.2.0",
+    "superagent": "~0.15.4"
   }
 }

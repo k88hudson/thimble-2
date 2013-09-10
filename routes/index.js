@@ -4,8 +4,9 @@ module.exports = function(app, db) {
     site: require('../controllers/site')
   };
 
-  app.get('/', routes.db.loadProject, routes.site.main);
-  app.get('/project/:id', routes.db.loadProject, routes.site.main);
+  app.get('/', routes.db.loadProject, routes.site.editor);
+  app.get('/project/:id/edit', routes.db.loadProject, routes.site.editor);
+  app.get('/project/:id', routes.db.loadProject, routes.site.output);
   app.get('/console', routes.site.page('console'));
 
   app.get('/all', routes.db.all);
@@ -13,5 +14,6 @@ module.exports = function(app, db) {
 
   app.post('/create', routes.db.create);
   app.post('/update', routes.db.update);
+  app.post('/delete', routes.db.destroy);
 
 };
