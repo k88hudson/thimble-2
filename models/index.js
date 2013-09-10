@@ -1,13 +1,5 @@
 var Sequelize = require('sequelize');
 
-function errHandler(err) {
-  console.log(err);
-}
-
-function successHandler() {
-  console.log('success');
-}
-
 module.exports = function () {
   var sequelize = new Sequelize('db', 'username', 'password', {
     dialect: 'sqlite',
@@ -37,11 +29,6 @@ module.exports = function () {
         return callback('No data was received');
       }
       var doc = model.build(data);
-      // var err = doc.validate();
-      // console.log(err);
-      // if (err) {
-      //   return callback(err);
-      // }
       doc.save().complete(callback);
     },
     update: function (id, data, callback) {
